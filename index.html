@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>💖 Valentinstag 💖</title>
+  <style>
+    :root { --bg1:#0f1020; --bg2:#1b1d3a; --card:#ffffff12; --txt:#fff; }
+    * { box-sizing:border-box; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      background: radial-gradient(1200px 800px at 20% 10%, #ff4d8d30, transparent 60%),
+                  radial-gradient(1200px 800px at 80% 90%, #7c4dff25, transparent 60%),
+                  linear-gradient(160deg, var(--bg1), var(--bg2));
+      color:var(--txt);
+      overflow:hidden;
+    }
+    .card{
+      width:min(720px, 92vw);
+      background: var(--card);
+      border:1px solid #ffffff25;
+      border-radius:24px;
+      padding:28px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 80px #00000055;
+      text-align:center;
+    }
+    h1{ margin:0 0 10px; font-size: clamp(26px, 4vw, 40px); }
+    p{ margin: 8px 0; opacity:.92; font-size: clamp(15px, 2.2vw, 18px); line-height:1.5; }
+    .q{ margin-top:18px; font-weight:700; font-size: clamp(18px, 2.6vw, 22px); }
+    .btns{ position:relative; height:110px; margin-top:18px; }
+    button{
+      border:0; cursor:pointer;
+      padding:14px 22px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:18px;
+      transition: transform .12s ease, box-shadow .12s ease;
+      user-select:none;
+    }
+    #yes{
+      background: linear-gradient(135deg, #ff3d7f, #ff7aa8);
+      color:#1a0610;
+      box-shadow: 0 14px 30px #ff3d7f35;
+      position:absolute; left:50%; transform: translateX(-120%);
+    }
+    #no{
+      background: #ffffff;
+      color:#111;
+      box-shadow: 0 14px 30px #00000035;
+      position:absolute; left:50%; transform: translateX(20%);
+    }
+    button:active{ transform: translateX(var(--tx,0)) scale(.98); }
+    .footer{
+      margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+      opacity:.9;
+    }
+    .smallbtn{
+      background:#ffffff14; color:#fff; border:1px solid #ffffff25;
+      font-size:14px; padding:10px 14px;
+    }
+    .result{
+      margin-top:18px; display:none;
+      animation: pop .35s ease both;
+    }
+    @keyframes pop{ from{ transform:scale(.97); opacity:0 } to{ transform:scale(1); opacity:1 } }
+    img{
+      width:min(360px, 85vw);
+      border-radius:18px;
+      margin-top:14px;
+      border:1px solid #ffffff25;
+      box-shadow: 0 16px 50px #00000055;
+    }
+    .hearts span{
+      position:absolute; font-size:18px; opacity:.75; animation: float 7s linear infinite;
+      bottom:-40px;
+    }
+    @keyframes float{
+      0%{ transform: translateY(0) translateX(0) rotate(0deg); opacity:0 }
+      10%{ opacity:.75 }
+      100%{ transform: translateY(-120vh) translateX(30px) rotate(240deg); opacity:0 }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card" id="card">
+    <h1>Hey meine Liebe 💖</h1>
+    <p>
+      Ich wollte dir nur sagen: Du machst meine Tage ruhiger, schöner und irgendwie… richtiger.
+      Danke, dass du da bist.
+    </p>
+    <p class="q">Willst du mein Valentine sein? 🥺🌹</p>
+
+    <div class="btns">
+      <button id="yes">Ja 💘</button>
+      <button id="no">Nein 🙈</button>
+    </div>
+
+    <div class="footer">
+      <button class="smallbtn" id="play">🎵 Musik abspielen</button>
+      <button class="smallbtn" id="pause">⏸️ Pause</button>
+    </div>
+
+    <div class="result" id="result">
+      <h1>Juhuuu!! 🥳💞</h1>
+      <p>Dann lass uns das wahr machen 😄✨</p>
+      <p><b>Heute gehörst du mir… und ich dir.</b></p>
+      <img src="us.jpg" alt="Unser Foto (falls du us.jpg hochlädst)" onerror="this.style.display='none'">
+    </div>
+
+    <!-- Wenn du Musik willst: lade song.mp3 ins Repo hoch -->
+    <audio id="song" preload="auto">
+      <source src="song.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    // Herzchen-Animation
+    const hearts = document.getElementById('hearts');
+    const heartChars = ["💖","💘","💗","💞","💕","🌹"];
+    function spawnHeart(){
+      const s = document.createElement('span');
+      s.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
+      s.style.left = Math.random()*100 + 'vw';
+      s.style.animationDuration = (5 + Math.random()*5) + 's';
+      s.style.fontSize = (14 + Math.random()*18) + 'px';
+      hearts.appendChild(s);
+      setTimeout(()=>s.remove(), 10000);
+    }
+    setInterval(spawnHeart, 280);
+
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const result = document.getElementById('result');
+
+    function moveNoButton(){
+      const container = document.querySelector('.btns');
+      const rect = container.getBoundingClientRect();
+      const maxX = rect.width - noBtn.offsetWidth;
+      const maxY = rect.height - noBtn.offsetHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+      noBtn.style.transform = 'none';
+      noBtn.style.position = 'absolute';
+    }
+
+    // Auf Desktop: wenn Maus in die Nähe kommt, flieht der Button
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    // Auf Handy: bei Touch versucht er auch zu fliehen
+    noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNoButton(); }, {passive:false});
+
+    yesBtn.addEventListener('click', ()=>{
+      result.style.display = 'block';
+      document.querySelector('.q').textContent = "Du hast JA gesagt 💘";
+      // kleine Konfetti-Feeling: mehr Herzen
+      for(let i=0;i<20;i++) setTimeout(spawnHeart, i*60);
+    });
+
+    // Musik Buttons
+    const song = document.getElementById('song');
+    document.getElementById('play').addEventListener('click', ()=> song.play().catch(()=>{}));
+    document.getElementById('pause').addEventListener('click', ()=> song.pause());
+  </script>
+</body>
+</html>
