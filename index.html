@@ -62,13 +62,19 @@
     }
     @keyframes pop{ from{ transform:scale(.97); opacity:0 } to{ transform:scale(1); opacity:1 } }
 
-    img{
-      width:min(420px, 88vw);
-      border-radius:18px;
-      margin-top:14px;
-      border:1px solid #ffffff25;
-      box-shadow: 0 16px 50px #00000055;
-    }
+  img{
+  width: min(520px, 92vw);
+  max-width: 100%;
+  height: auto;              /* wichtig: behält Verhältnis */
+  max-height: 55vh;          /* wichtig: nie zu groß (55% Bildschirmhöhe) */
+  object-fit: contain;       /* zeigt das ganze Bild */
+  display: block;
+  margin: 16px auto 0;       /* zentriert */
+  border-radius: 18px;
+  border: 1px solid #ffffff25;
+  box-shadow: 0 16px 50px #00000055;
+}
+
 
     .footer{
       margin-top:14px;
